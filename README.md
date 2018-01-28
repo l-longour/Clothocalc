@@ -1,4 +1,4 @@
-# clothocalc
+# Clothocalc
 Clothoid design support software
 
 # License
