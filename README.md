@@ -2,4 +2,4 @@
 Clothoid design support software
 
 # License
-[MIT](LICENSE)
+[CeCILL_V2](LICENSE)
