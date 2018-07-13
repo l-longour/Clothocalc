@@ -33,138 +33,47 @@
 
 import math
 projet = input("Nom du projet ? :")
-cas = input("Cas du projet (1 pour symetriques, 2 pour symetrique-dissymetrique, 3 pour arcs de cercles) :")
+cas = int(input("Cas du projet (1 pour symetriques, 2 pour symetrique-dissymetrique, 3 pour arcs de cercles) :"))
 cr = input("Entrer la catégorie de route :")
-nv = input("Entrer le nombre de voies :")
-r = input("Entrer le rayon du cercle projeté :")
-aa = input("Entrer l'angle entre les raccordements (en gon) :")
-p = input("Entrer la valeur du dévers en alignement (en %) :")
+nv = int(input("Entrer le nombre de voies :"))
+r = float(input("Entrer le rayon du cercle projeté :"))
+aa = float(input("Entrer l'angle entre les raccordements (en gon) :"))
+p = float(input("Entrer la valeur du dévers en alignement (en %) :"))
 pma = float(p)/100
+
 def vr(cr):
-  if cr is 'R60':
-    return 90
-  if cr is 'R80':
-    return 110
-  if cr is 'T80':
-    return 90
-  if cr is 'T100':
-    return 90
-  if cr is 'L80':
-    return 110
-  if cr is 'L100':
-    return 130
-  if cr is 'L120':
-    return 140
-  if cr is 'A80':
-    return 90
-  if cr is 'A100':
-    return 90
-  if cr is 'U60':
-    return 70
-  if cr is 'U80':
-    return 70
+ dico = {'R60':90, 'R80':110, 'T80':90, 'T100':90, 'L80':110, 'L100':180, 'L120':140, 'A80':90, 'A100':90, 'U60':70, 'U80':70}
+ return dico[cr]
 
 def rm(cr):
-  if cr is 'R60':
-    return 120
-  if cr is 'R80':
-    return 240
-  if cr is 'T80':
-    return 240
-  if cr is 'T100':
-    return 425
-  if cr is 'L80':
-    return 240
-  if cr is 'L100':
-    return 425
-  if cr is 'L120':
-    return 665
-  if cr is 'A80':
-    return 240
-  if cr is 'A100':
-    return 425
-  if cr is 'U60':
-    return 120
-  if cr is 'U80':
-    return 240
+  dico = {'R60':120, 'R80':240, 'T80':240, 'T100':425, 'L80':240, 'L100':425, 'L120':665, 'A80':240, 'A100':425, 'U60':120, 'U80':240}
+  return dico[cr]
 
 def rdm(cr):
-  if cr is 'R60':
-    return 450
-  if cr is 'R80':
-    return 650
-  if cr is 'T80':
-    return 650
-  if cr is 'T100':
-    return 900
-  if cr is 'L80':
-    return 650
-  if cr is 'L100':
-    return 900
-  if cr is 'L120':
-    return 1500
-  if cr is 'A80':
-    return 300
-  if cr is 'A100':
-    return 600
-  if cr is 'U60':
-    return 200
-  if cr is 'U80':
-    return 400
+  dico = {'R60':450, 'R80':650, 'T80':650, 'T100':900, 'L80':650, 'L100':900, 'L120':1500, 'A80':300, 'A100':600, 'U60':200, 'U80':400}
+  return dico[cr]
 
 def rnd(cr):
-  if cr is 'R60':
-    return 600
-  if cr is 'R80':
-    return 900
-  if cr is 'T80':
-    return 900
-  if cr is 'T100':
-    return 1300
-  if cr is 'L80':
-    return 900
-  if cr is 'L100':
-    return 1300
-  if cr is 'L120':
-    return 1800
-  if cr is 'A80':
-    return 400
-  if cr is 'A100':
-    return 800
-  if cr is 'U60':
-    return 0
-  if cr is 'U80':
-    return 0
-    
-def rvm(cr):
-  if cr is 'R60':
-    return 1500
-  if cr is 'R80':
-    return 3000
-  if cr is 'T80':
-    return 3000
-  if cr is 'T100':
-    return 6000
-  if cr is 'L80':
-    return 3000
-  if cr is 'L100':
-    return 6000
-  if cr is 'L120':
-    return 10000
-  if cr is 'A80':
-    return 6000
-  if cr is 'A100':
-    return 10000
-  if cr is 'U60':
-    return 2500
-  if cr is 'U80':
-    return 6000
+  dico = {'R60':600, 'R80':900, 'T80':900, 'T100':1300, 'L80':900, 'L100':1300, 'L120':1800, 'A80':400, 'A100':800, 'U60':0, 'U80':0}
+  return dico[cr]
 
-def pM ():
-  if cr is 'R60' or cr is 'R80' or cr is 'T80' or cr is 'T100' or cr is 'L80' or cr is 'L100' or cr is 'L120':
-    return round(0.07 + (float(pma)-0.07)*(float(r)-rm(cr))/(rdm(cr) - rm(cr)),3)
-  if cr is 'A80' or cr is 'A100' or cr is 'U60' or cr is 'U80':
+def rvm(cr):
+  dico ={'R60':1500, 'R80':3000, 'T80':3000, 'T100':6000, 'L80':3000, 'L100':6000, 'L120':10000, 'A80':6000, 'A100':10000, 'U60':2500, 'U80':6000}
+  return dico[cr]
+
+def ty():
+  if cr is 'R60' or 'R80' or 'T100' or 'L80' or 'L100' or 'L120':
+    return 1
+  elif cr is '180' or 'A100' or 'U60' or 'U80':
+    return 2
+
+def pM():
+  if int(ty()) is 1:
+    return round(0.07 + (float(pma)-0.07)*(float(r)-int(rm(cr)))/(int(rdm(cr)) - int(rm(cr))),3)
+  elif int(ty()) is 2:
     return round(0.05 +(float(pma)-0.05)*(float(r)-rm(cr))/(rdm(cr) - rm(cr)),3)
+
+print(float(pM()))
 
 def lr():
   if cr is 'L80' or cr is 'L100' or cr is 'L120' or cr is 'U60' or cr is 'U80' or 'A80' or cr is 'A100':
@@ -188,7 +97,9 @@ def lr():
         return 12*float(r)**0.4
       if 12*float(r)**0.4>133:
         print("Calcul impossible: rayon trop grand")
+        
 a = round(math.sqrt(float(r)*float(lr())),2)
+print(float(a))
 if a > float(r)/10*math.sqrt((200-float(aa))*math.pi/2):
   print("! Condition d'existence non respectée !")
 if a < float(r)/3:
@@ -215,42 +126,42 @@ if ch is 'n':
 print("")
 print("---PARAMÈTRES DE LA CLOTHOÏDE---")
 t = round(((float(L)**2)/(2*float(A)**2))/math.pi*200,4)
-print("τ :"),t,("gon")
+print("τ :",t,"gon")
 xF = round(float(L)*(1-(float(L)**4)/(40*(float(A)**4))+(float(L)**8)/(3456*(float(A)**8))+(float(L)**13)/(599040*(float(L)**13))),3)
-print("xF :"),xF,("m")
+print("xF :",xF,"m")
 yF = round((float(L)**3)/(6*(float(A)**2))*(1-(float(L)**4)/(56*(float(A)**4))+(float(L)**8)/(7040*(float(A)**8))),3)
-print("yF :"),yF,("m")
+print("yF :",yF,"m")
 rp = round(float(yF)-float(r)*(1-(math.cos(float(t)*math.pi/200))),3)
-print("Ripage :"),rp,("m")
+print("Ripage :",rp,"m")
 xC = round(float(xF)-float(R)*math.sin(float(t)*math.pi/200),3)
-print("xC :"),xC,("m")
+print("xC :",xC,"m")
 yC = round(float(R)+float(rp),3)
-print("yC :"),yC,("m")
+print("yC :",yC,"m")
 xS = round(float(xC)+(float(R)+float(rp))/math.tan(float(aa)*math.pi/400),3)
-print("xS :"),xS,("m")
+print("xS :",xS,"m")
 cOF = round(math.sqrt(float(xF)**2+float(yF)**2),3)
-print("Corde OF :"),cOF,("m")
+print("Corde OF :",cOF,"m")
 o = round(math.atan(float(yF)/float(xF))*200/math.pi,4)
-print("ωF :"),o,("gon")
+print("ωF :",o,"gon")
 print("")
 print("---PARAMÈTRES DE L'ARC RACCORDÉ---")
 ac = 200-float(aa)
 al = round(float(ac)-2*float(t),4)
-print("α :"),al,("gon")
+print("α :",al,"gon")
 lar = round(float(R)*float(al)/200*math.pi,3)
-print("Longueur :"),lar,("m")
+print("Longueur :",lar,"m")
 cff = round(2*float(R)*math.sin(float(al)/400*math.pi),3)
-print("Corde :"),cff,("m")
+print("Corde :",cff,"m")
 far = round(float(R)*(1-math.cos(float(al)*math.pi/400)),3)
-print("Flèche :"),far,("m")
+print("Flèche :",far,"m")
 print("")
 print("---IMPLANTATION PREMIERE CLOTHOÏDE---")
 nbc1 = input("Entrer la distance entre chaques points :")
 npa1 = round(float(L)/float(nbc1)+2,0)
-print("Nombre de points à implanter :"),npa1
+print("Nombre de points à implanter :",npa1)
 # IMPRESSION DES RESULTATS
 rapport = open(projet+' - Rapport.txt','w')
-rapport.write(' -----------------------------------------------------------------------------\n|                     Rapport de calcul des clothoides                        |\n -----------------------------------------------------------------------------\n   2018 - Clothocalc [Licence CeCILL_V2]      '+'github.com/llongour/Clothocalc'+'\n\nProjet: '+str(projet)+'\nVersion du logiciel: 2018.01.27\n ----------------------------------------------------------------------------- \n|                     D O N N E E S   E N   E N T R E E                       |\n -----------------------------------------------------------------------------\n  Categorie de route                 |  '+ cr + '\n  Nombre de voies                    |  '+ nv +'\n  Rayon du cercle projete (m)        |  '+ r + '\n  Angle entre les raccordements (gon)|  '+ aa +'\n  Devers en alignement (%)           |  '+ p +'\n\n\n\n================================================================================\n                           PARAMETRES DE LA CLOTHOIDE\n--------------------------------------------------------------------------------\n                 A                   |  '+ A +'\n                 R                   |  '+ r +'\n                 L                   |  '+str(L)+'\n================================================================================\n\n\n\n================================================================================\n|                                                                              |\n|                          ELEMENTS DE LA CLOTHOIDE                            |\n|                                                                              |\n|------------------------------------------------------------------------------|\n  PARAMETRES GENERAUX\n'+'    -τ (gon)               |  '+str(t)+'\n                             -------------------\n  DANS LE REPERE O,X,Y'+'\n    -oF (gon)              |  '+str(o)+'\n    -Ripage (m)            |  '+str(rp)+'\n                             -------------------\n  COORDONNEES DU CENTRE C\n    -X (m)                 |  '+str(xC)+'\n    -Y (m)                 |  '+str(yC)+'\n                             -------------------\n  ABSCISSE DU SOMMET S\n    -X (m)                 |  '+str(xS)+'\n================================================================================\n\n\n\n\n================================================================================\n|                                                                              |\n|                         ELEMENTS DE L ARC RACCORDE                           |\n|                                                                              |\n|------------------------------------------------------------------------------|\n  PARAMETRES GENERAUX\n    -a (gon)               |  '+str(al)+'\n    -Longueur (m)          |  '+str(lar)+'\n    -Corde (m)             |  '+str(cff)+'\n    -Fleche (m)            |  '+str(far)+'\n================================================================================\n\n\n\n\n\n\n       calculs effectues conformement aux directives du SETRA et du CERTU')
+rapport.write(' -----------------------------------------------------------------------------\n|                     Rapport de calcul des clothoides                        |\n -----------------------------------------------------------------------------\n   2018 - Clothocalc [Licence CeCILL_V2]      '+'github.com/llongour/Clothocalc'+'\n\nProjet: '+str(projet)+'\nVersion du logiciel: 2018.01.27\n ----------------------------------------------------------------------------- \n|                     D O N N E E S   E N   E N T R E E                       |\n -----------------------------------------------------------------------------\n  Categorie de route                 |  '+ str(cr) + '\n  Nombre de voies                    |  '+ str(nv) +'\n  Rayon du cercle projete (m)        |  '+ str(r) + '\n  Angle entre les raccordements (gon)|  '+ str(aa) +'\n  Devers en alignement (%)           |  '+ str(p) +'\n\n\n\n================================================================================\n                           PARAMETRES DE LA CLOTHOIDE\n--------------------------------------------------------------------------------\n                 A                   |  '+ str(A) +'\n                 R                   |  '+ str(r) +'\n                 L                   |  '+str(L)+'\n================================================================================\n\n\n\n================================================================================\n|                                                                              |\n|                          ELEMENTS DE LA CLOTHOIDE                            |\n|                                                                              |\n|------------------------------------------------------------------------------|\n  PARAMETRES GENERAUX\n'+'    -τ (gon)               |  '+str(t)+'\n                             -------------------\n  DANS LE REPERE O,X,Y'+'\n    -oF (gon)              |  '+str(o)+'\n    -Ripage (m)            |  '+str(rp)+'\n                             -------------------\n  COORDONNEES DU CENTRE C\n    -X (m)                 |  '+str(xC)+'\n    -Y (m)                 |  '+str(yC)+'\n                             -------------------\n  ABSCISSE DU SOMMET S\n    -X (m)                 |  '+str(xS)+'\n================================================================================\n\n\n\n\n================================================================================\n|                                                                              |\n|                         ELEMENTS DE L ARC RACCORDE                           |\n|                                                                              |\n|------------------------------------------------------------------------------|\n  PARAMETRES GENERAUX\n    -a (gon)               |  '+str(al)+'\n    -Longueur (m)          |  '+str(lar)+'\n    -Corde (m)             |  '+str(cff)+'\n    -Fleche (m)            |  '+str(far)+'\n================================================================================\n\n\n\n\n\n\n       calculs effectues conformement aux directives du SETRA et du CERTU')
 rapport.close()
 # IMPRESSION IMPLANTATION
 implantation = open(projet+' - Listing.txt','w')
