@@ -31,8 +31,15 @@
 #pris connaissance de la licence, et que vous en avez accepté les
 #termes.
 
+import os
 import math
+pdir = os.getcwd()+'/Projets'
+if not os.path.exists(pdir):
+    os.mkdir(pdir)
 projet = input("Nom du projet ? :")
+projdir = os.getcwd()+'/Projets/'+projet
+if not os.path.exists(projdir):
+    os.mkdir(projdir)
 cas = int(input("Cas du projet (1 pour symetriques, 2 pour symetrique-dissymetrique, 3 pour arcs de cercles) :"))
 cr = input("Entrer la catégorie de route :")
 nv = int(input("Entrer le nombre de voies :"))
@@ -40,19 +47,19 @@ r = float(input("Entrer le rayon du cercle projeté :"))
 aa = float(input("Entrer l'angle entre les raccordements (en gon) :"))
 p = float(input("Entrer la valeur du dévers en alignement (en %) :"))
 pma = float(p)/100
-
+# Vitesse de référence
 def vr(cr):
  dico = {'R60':90, 'R80':110, 'T80':90, 'T100':90, 'L80':110, 'L100':180, 'L120':140, 'A80':90, 'A100':90, 'U60':70, 'U80':70}
  return dico[cr]
-
+# Rayon minimal d'un virage circulaire
 def rm(cr):
   dico = {'R60':120, 'R80':240, 'T80':240, 'T100':425, 'L80':240, 'L100':425, 'L120':665, 'A80':240, 'A100':425, 'U60':120, 'U80':240}
   return dico[cr]
-
+# Rayon au niveau du dévers minimal
 def rdm(cr):
   dico = {'R60':450, 'R80':650, 'T80':650, 'T100':900, 'L80':650, 'L100':900, 'L120':1500, 'A80':300, 'A100':600, 'U60':200, 'U80':400}
   return dico[cr]
-
+# Rayon minimal non déversé
 def rnd(cr):
   dico = {'R60':600, 'R80':900, 'T80':900, 'T100':1300, 'L80':900, 'L100':1300, 'L120':1800, 'A80':400, 'A100':800, 'U60':0, 'U80':0}
   return dico[cr]
@@ -60,7 +67,7 @@ def rnd(cr):
 def rvm(cr):
   dico ={'R60':1500, 'R80':3000, 'T80':3000, 'T100':6000, 'L80':3000, 'L100':6000, 'L120':10000, 'A80':6000, 'A100':10000, 'U60':2500, 'U80':6000}
   return dico[cr]
-
+# Type pM
 def ty():
   if cr is 'R60' or 'R80' or 'T100' or 'L80' or 'L100' or 'L120':
     return 1
@@ -72,7 +79,7 @@ def pM():
     return round(0.07 + (float(pma)-0.07)*(float(r)-int(rm(cr)))/(int(rdm(cr)) - int(rm(cr))),3)
   elif int(ty()) is 2:
     return round(0.05 +(float(pma)-0.05)*(float(r)-rm(cr))/(rdm(cr) - rm(cr)),3)
-
+# Longueur raccordée
 def lr():
   if cr is 'L80' or cr is 'L100' or cr is 'L120' or cr is 'U60' or cr is 'U80' or 'A80' or cr is 'A100':
     if float(r)/9 < 14*(abs((float(pM())*100)-(-float(pma)*100))):
@@ -95,7 +102,7 @@ def lr():
         return 12*float(r)**0.4
       if 12*float(r)**0.4>133:
         print("Calcul impossible: rayon trop grand")
-        
+# Paramètre A
 a = round(math.sqrt(float(r)*float(lr())),2)
 print(float(a))
 if a > float(r)/10*math.sqrt((200-float(aa))*math.pi/2):
@@ -123,7 +130,7 @@ if ch is 'n':
   print("L :"),L,("m")
 print("")
 print("---PARAMÈTRES DE LA CLOTHOÏDE---")
-t = round(((float(L)**2)/(2*float(A)**2))/math.pi*200,4)
+t = round(((float(L)**2)/(2*float(A)**2))/math.pi*200,4) # Tau
 print("τ :",t,"gon")
 xF = round(float(L)*(1-(float(L)**4)/(40*(float(A)**4))+(float(L)**8)/(3456*(float(A)**8))+(float(L)**13)/(599040*(float(L)**13))),3)
 print("xF :",xF,"m")
@@ -156,12 +163,14 @@ print("")
 print("---IMPLANTATION PREMIERE CLOTHOÏDE---")
 nbc1 = input("Entrer la distance entre chaques points :")
 npa1 = round(float(L)/float(nbc1)+2,0)
-print("Nombre de points à implanter :",npa1)
+print("Nombre de points à implanter :",math.ceil(npa1))
 # IMPRESSION DES RESULTATS
-rapport = open(projet+' - Rapport.txt','w')
+raptxt = os.path.join(projdir,projet+' - Rapport.txt')
+rapport = open(raptxt,'w')
 rapport.write(' -----------------------------------------------------------------------------\n|                     Rapport de calcul des clothoides                        |\n -----------------------------------------------------------------------------\n   2018 - Clothocalc [Licence CeCILL_V2]      '+'github.com/llongour/Clothocalc'+'\n\nProjet: '+str(projet)+'\nVersion du logiciel: 2018.01.27\n ----------------------------------------------------------------------------- \n|                     D O N N E E S   E N   E N T R E E                       |\n -----------------------------------------------------------------------------\n  Categorie de route                 |  '+ str(cr) + '\n  Nombre de voies                    |  '+ str(nv) +'\n  Rayon du cercle projete (m)        |  '+ str(r) + '\n  Angle entre les raccordements (gon)|  '+ str(aa) +'\n  Devers en alignement (%)           |  '+ str(p) +'\n\n\n\n================================================================================\n                           PARAMETRES DE LA CLOTHOIDE\n--------------------------------------------------------------------------------\n                 A                   |  '+ str(A) +'\n                 R                   |  '+ str(r) +'\n                 L                   |  '+str(L)+'\n================================================================================\n\n\n\n================================================================================\n|                                                                              |\n|                          ELEMENTS DE LA CLOTHOIDE                            |\n|                                                                              |\n|------------------------------------------------------------------------------|\n  PARAMETRES GENERAUX\n'+'    -'+u'\u03c4'+' (gon)               |  '+str(t)+'\n                             -------------------\n  DANS LE REPERE O,X,Y'+'\n    -'+u'\u03c9F'+' (gon)              |  '+str(o)+'\n    -Ripage (m)            |  '+str(rp)+'\n                             -------------------\n  COORDONNEES DU CENTRE C\n    -X (m)                 |  '+str(xC)+'\n    -Y (m)                 |  '+str(yC)+'\n                             -------------------\n  ABSCISSE DU SOMMET S\n    -X (m)                 |  '+str(xS)+'\n================================================================================\n\n\n\n\n================================================================================\n|                                                                              |\n|                         ELEMENTS DE L ARC RACCORDE                           |\n|                                                                              |\n|------------------------------------------------------------------------------|\n  PARAMETRES GENERAUX\n    -'+u'\u03b1'+' (gon)               |  '+str(al)+'\n    -Longueur (m)          |  '+str(lar)+'\n    -Corde (m)             |  '+str(cff)+'\n    -Fleche (m)            |  '+str(far)+'\n================================================================================\n\n\n\n\n\n\n       calculs effectues conformement aux directives du SETRA et du CERTU')
 rapport.close()
 # IMPRESSION IMPLANTATION
-implantation = open(projet+' - Listing.txt','w')
-implantation.write(' -----------------------------------------------------------------------------\n|                 Listing pour implantation de la clothoide 1                 |\n -----------------------------------------------------------------------------\n  2018 - Lucas Longour [Licence CeCILL_V2]     '+'github.com/llongour/Clothocalc'+'\n\nProjet: '+str(projet)+'\nVersion du logiciel: 2018.01.27\n -----------------------------------------------------------------------------\n|               I N F O R M A T I O N S   G E N E R A L E S                   |\n -----------------------------------------------------------------------------\n  Distance entre chaques points (m)  |  '+str(nbc1)+'\n  Nombre de points a implanter       |  '+str(npa1))
+imptxt = os.path.join(projdir,projet+' - Listing.txt')
+implantation = open(imptxt,'w')
+implantation.write(' -----------------------------------------------------------------------------\n|                 Listing pour implantation de la clothoide 1                 |\n -----------------------------------------------------------------------------\n  2018 - Lucas Longour [Licence CeCILL_V2]     '+'github.com/llongour/Clothocalc'+'\n\nProjet: '+str(projet)+'\nVersion du logiciel: 2018.01.27\n -----------------------------------------------------------------------------\n|               I N F O R M A T I O N S   G E N E R A L E S                   |\n -----------------------------------------------------------------------------\n  Distance entre chaques points (m)  |  '+str(nbc1)+'\n  Nombre de points a implanter       |  '+str(math.ceil(npa1)))
 implantation.close()
