@@ -9,5 +9,9 @@ Le raccordement progressif permet également une transition graduelle de l'align
 L'étude en plan des courbes se fait principalement avec des clothoïdes, tandis que l'étude du profil en long se fait avec des raccordements paraboliques.
 
 English version [here](README_en.md)
+## Avertissements
+Le programme en accès ici est en développement, ainsi un certain nombre de calculs et de contrôles de cohérence ne sont sont pas encore disponibles. Vous êtes libres de participer au développement. 
+
+Dans tout les cas, avant d'utiliser ce programme, comme tout autre programme de calcul, veillez à bien comprendre le raisonnement mathématique qu'il implique, de façon à être à même de détecter les éventuelles irrégularités.
 # Licence
 [CeCILL_V2](LICENCE)
